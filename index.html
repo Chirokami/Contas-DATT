@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prestação de Contas</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Prestação de Contas</h1>
+    <button class="btn-primary">+ Cadastrar Conta</button>
+
+    <section>
+      <h2>Contas de Entrada</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Descrição</th>
+            <th>Valor</th>
+            <th>Recibo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Descrição da entrada</td>
+            <td>R$ 500,00</td>
+            <td><a href="#">Download</a></td>
+          </tr>
+          <tr>
+            <td>Outro recebimento</td>
+            <td>R$ 750,00</td>
+            <td><a href="#">Download</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>Contas de Saída</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Descrição</th>
+            <th>Valor</th>
+            <th>Recibo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Descrição da saída</td>
+            <td>R$ 300,00</td>
+            <td><a href="#">Download</a></td>
+          </tr>
+          <tr>
+            <td>Outro pagamento</td>
+            <td>R$ 200,00</td>
+            <td><a href="#">Download</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+  <h2>Resumo Mensal</h2>
+  <canvas id="graficoFinanceiro" width="400" height="200"></canvas>
+
+  <!-- Supabase CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Seu script -->
+  <script src="script.js"></script>
+
+</body>
+</html>
