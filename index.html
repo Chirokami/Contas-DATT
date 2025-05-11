@@ -12,55 +12,18 @@
     <button class="btn-primary">+ Cadastrar Conta</button>
 
     <section>
-      <h2>Contas de Entrada</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Descrição</th>
-            <th>Valor</th>
-            <th>Recibo</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Descrição da entrada</td>
-            <td>R$ 500,00</td>
-            <td><a href="#">Download</a></td>
-          </tr>
-          <tr>
-            <td>Outro recebimento</td>
-            <td>R$ 750,00</td>
-            <td><a href="#">Download</a></td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
+      <h2>Contas</h2>
+      <table id="tabela_contas">
 
-    <section>
-      <h2>Contas de Saída</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Descrição</th>
-            <th>Valor</th>
-            <th>Recibo</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Descrição da saída</td>
-            <td>R$ 300,00</td>
-            <td><a href="#">Download</a></td>
-          </tr>
-          <tr>
-            <td>Outro pagamento</td>
-            <td>R$ 200,00</td>
-            <td><a href="#">Download</a></td>
-          </tr>
-        </tbody>
       </table>
     </section>
   </div>
+  <input type="text" id="filtroNome" placeholder="Filtrar por nome">
+  <select id="filtroTipo">
+    <option value="">Todos os tipos</option>
+    <option value="entrada">Entrada</option>
+    <option value="saida">Saída</option>
+  </select>
   <h2>Resumo Mensal</h2>
   <canvas id="graficoFinanceiro" width="400" height="200"></canvas>
 
