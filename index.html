@@ -3,29 +3,30 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Prestação de Contas</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="container">
-    <h1>Prestação de Contas</h1>
-    <button class="btn-primary">+ Cadastrar Conta</button>
+    <section class="logo"><img  src="imagens/logo.png" alt="LogoUrcamp">
+      <h1>Página de prestação de Contas</h1>
+    </section>
 
-    <section>
-      <h2>Contas</h2>
+
+    <button class="btncadastro"> Cadastrar Conta</button>
+    <div class="filtros"><input type="text" id="filtroNome" placeholder="">
+
+      <select id="filtroTipo">
+      </select>
+    </div>
+    <div class="container">
+    
+    <section class="tabela_contas">
       <table id="tabela_contas">
-
       </table>
     </section>
+
+  <div class="grafico"><canvas id="graficoFinanceiro" width="400" height="200"></canvas>
   </div>
-  <input type="text" id="filtroNome" placeholder="Filtrar por nome">
-  <select id="filtroTipo">
-    <option value="">Todos os tipos</option>
-    <option value="entrada">Entrada</option>
-    <option value="saida">Saída</option>
-  </select>
-  <h2>Resumo Mensal</h2>
-  <canvas id="graficoFinanceiro" width="400" height="200"></canvas>
+</div>
 
   <!-- Supabase CDN -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>

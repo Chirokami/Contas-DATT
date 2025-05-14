@@ -85,9 +85,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       tbody.appendChild(tr);
 
       if (conta.tipo === 'entrada') {
-        tr.style.backgroundColor = 'rgba(34, 197, 94, 0.7)'; // Cor verde
+        tr.style.backgroundColor = 'rgba(34, 197, 94, 0.9)'; // Cor verde
       } else if (conta.tipo === 'saida') {
-        tr.style.backgroundColor = 'rgba(239, 68, 68, 0.7)'; // Cor vermelha
+        tr.style.backgroundColor = 'rgba(239, 68, 68, 0.9)'; // Cor vermelha
       }
     });
 

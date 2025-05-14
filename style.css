@@ -1,74 +1,74 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #fefefe;
-    margin: 0;
-    padding: 0;
-  }
-  
-  .container {
-    max-width: 800px;
-    margin: 40px auto;
-    padding: 0 20px;
-  }
-  
-  h1 {
-    font-size: 2.5rem;
-    margin-bottom: 20px;
-    font-weight: bold;
-  }
-  
-  .btn-primary {
-    background-color: #2563eb;
+*{
+    background-color:#354f4464;
+    margin: 0px;
+    padding: 0px;
+    scrollbar-color: #354f44;
+}
+
+h1{
     color: white;
-    border: none;
-    padding: 12px 24px;
-    border-radius: 10px;
-    font-size: 1rem;
-    cursor: pointer;
-    margin-bottom: 30px;
-  }
-  
-  .btn-primary:hover {
-    background-color: #1e40af;
-  }
-  
-  h2 {
-    margin-top: 30px;
-    margin-bottom: 10px;
-    font-size: 1.5rem;
-  }
-  
-  table {
-    width: 100%;
+    font-size: 60px;
+    background-color: #354f44;
+    
+}
+
+.container{
+    display: flex;
+    flex-direction: row;
+    gap: 8rem;
+}
+
+.logo{
+    max-width: 100%;
+    display: flex;
+    gap: 6rem;
+    background-color: #354f44;
+}
+img{
+    max-width: 20rem;
+    max-height: 10rem;
+    background-color: #354f44;
+}
+
+.btncadastro{
+    width: 10rem;
+    height: 2rem;
+
+}
+
+section.tabela_contas{
+    max-height: 40rem;
+    max-width: max-content;
+    overflow-y: auto;
+    overflow-x: auto;
+    margin: 1%;
+    margin-bottom: 1%;
+    border: 04px solid #000000;
+    
+    
+}
+table{
     border-collapse: collapse;
-    margin-bottom: 40px;
-  }
-  
-  th, td {
-    border: 1px solid #ccc;
-    padding: 12px 16px;
+    border: 2px solid black;
+    background-color: white;
+    
+    
+}
+
+th, td {
+    padding: 10px;
     text-align: left;
-  }
-  
-  th {
-    background-color: #f3f4f6;
-    font-weight: bold;
-  }
-  
-  a {
-    color: #2563eb;
-    text-decoration: none;
-  }
-  
-  a:hover {
-    text-decoration: underline;
-  }
-  
-  canvas {
-    margin-top: 30px;
-    background-color: #fff;
-    border: 1px solid #e5e7eb;
-    border-radius: 10px;
-    padding: 20px;
-  }
-  
+    border: 1px solid #ddd;
+    border: 1px solid black;
+}
+
+thead{
+    font-weight: bolder;
+}
+
+.grafico{
+    margin-right: 1rem;
+    height: 20rem;
+    width: 40rem;
+    
+}
