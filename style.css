@@ -1,74 +1,58 @@
-*{
-    background-color:#354f4464;
-    margin: 0px;
-    padding: 0px;
-    scrollbar-color: #354f44;
+/* Reset e fontes */
+* { margin:0; padding:0; box-sizing:border-box; font-family: 'Segoe UI', sans-serif; }
+body { background: #f4f7fa; color: #333; }
+
+/* Header */
+.header { background: #354f44; padding:1rem; color:#fff; }
+.header .logo { display:flex; align-items:center; gap:1rem; }
+.header img { height:50px; }
+
+/* Layout principal */
+.main {
+  max-width:1200px;
+  margin:2rem auto;
+  display:grid;
+  grid-template-columns:1fr 2fr;
+  gap:2rem;
 }
 
-h1{
-    color: white;
-    font-size: 60px;
-    background-color: #354f44;
-    
+/* Formulário */
+.form-section {
+  background:#fff; padding:1.5rem; border-radius:8px;
+  box-shadow:0 2px 5px rgba(0,0,0,0.1);
 }
+.form-section h2 { margin-bottom:1rem; color:#354f44; }
+.form-group { margin-bottom:1rem; }
+.form-group label { display:block; margin-bottom:0.3rem; font-weight:600; }
+.form-group input, .form-group select {
+  width:100%; padding:0.6rem; border:1px solid #ccc; border-radius:4px;
+}
+.btn { padding:0.7rem 1.2rem; border:none; border-radius:4px; cursor:pointer; }
+.btn-primary { background:#354f44; color:#fff; }
+.btn-primary:hover { background:#2b3e38; }
 
-.container{
-    display: flex;
-    flex-direction: row;
-    gap: 8rem;
+/* Tabela e filtros */
+.table-section { grid-column:2; }
+.filtros { display:flex; gap:1rem; margin-bottom:1rem; }
+.filtros input, .filtros select {
+  padding:0.5rem; border:1px solid #ccc; border-radius:4px;
 }
+#tabela_contas {
+  width:100%; border-collapse:collapse; background:#fff;
+  box-shadow:0 2px 5px rgba(0,0,0,0.1);
+}
+#tabela_contas th, #tabela_contas td {
+  padding:0.8rem 1rem; border:1px solid #e0e0e0;
+}
+#tabela_contas thead { background:#354f44; color:#fff; }
+#tabela_contas tbody tr:nth-child(even) { background:#f9f9f9; }
+/* Cores por tipo */
+#tabela_contas tbody tr.entrada { background:rgba(34,197,94,0.1); }
+#tabela_contas tbody tr.saida   { background:rgba(239,68,68,0.1); }
 
-.logo{
-    max-width: 100%;
-    display: flex;
-    gap: 6rem;
-    background-color: #354f44;
-}
-img{
-    max-width: 20rem;
-    max-height: 10rem;
-    background-color: #354f44;
-}
-
-.btncadastro{
-    width: 10rem;
-    height: 2rem;
-
-}
-
-section.tabela_contas{
-    max-height: 40rem;
-    max-width: max-content;
-    overflow-y: auto;
-    overflow-x: auto;
-    margin: 1%;
-    margin-bottom: 1%;
-    border: 04px solid #000000;
-    
-    
-}
-table{
-    border-collapse: collapse;
-    border: 2px solid black;
-    background-color: white;
-    
-    
-}
-
-th, td {
-    padding: 10px;
-    text-align: left;
-    border: 1px solid #ddd;
-    border: 1px solid black;
-}
-
-thead{
-    font-weight: bolder;
-}
-
-.grafico{
-    margin-right: 1rem;
-    height: 20rem;
-    width: 40rem;
-    
+/* Gráfico */
+.chart-section {
+  grid-column:1/ span 2; background:#fff;
+  padding:1rem; border-radius:8px;
+  box-shadow:0 2px 5px rgba(0,0,0,0.1);
 }

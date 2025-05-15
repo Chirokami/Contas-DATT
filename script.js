@@ -1,190 +1,212 @@
-document.addEventListener("DOMContentLoaded", async () => { 
-  const supabaseUrl = 'https://iibgbagqnyyjheoiubic.supabase.co';
-  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlpYmdiYWdxbnl5amhlb2l1YmljIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY2MzMzNTgsImV4cCI6MjA2MjIwOTM1OH0.alcpHiae4lLsQg_Tb7N-XQtzNhQspcOz5umorD5eZJg';
-  const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+let dados = [];
+let ordemAtual = { coluna: null, asc: true };
+let graficoFinanceiroInstance = null; // <- NOVO: referência ao gráfico atual
 
-  const tabela = document.getElementById("tabela_contas");
-  const filtroNome = document.getElementById("filtroNome");
-  const filtroTipo = document.getElementById("filtroTipo");
+const tbody       = document.querySelector('#tabela_contas tbody');
+const filtroNome  = document.getElementById('filtroNome');
+const filtroTipo  = document.getElementById('filtroTipo');
+const form        = document.getElementById('form-conta');
 
-  let dadosOriginais = [];
-  let ordemAtual = { coluna: null, asc: true };
+// 1) Ao carregar a página
+window.addEventListener('DOMContentLoaded', async () => {
+  await carregarDados();
+  configurarEventos();
+});
 
-  async function carregarTabela() {
-    const { data, error } = await supabaseClient
-      .from("usuarios")
-      .select("id, nome, valor, tipo, recibo, created_at");
+// 2) Busca dados e atualiza UI
+async function carregarDados() {
+  try {
+    dados = await getContas();
+  } catch (err) {
+    console.error('Erro ao buscar contas:', err);
+    return;
+  }
+  filtrarOuOrdenar();
+  renderChart();
+}
 
-    if (error) {
-      console.error("Erro ao buscar dados:", error.message);
+// 3) Filtragem + Ordenação
+function filtrarOuOrdenar() {
+  let list = dados.slice();
+  const n = filtroNome.value.toLowerCase();
+  const t = filtroTipo.value;
+
+  // filtro por nome e tipo
+  list = list.filter(c =>
+    c.nome.toLowerCase().includes(n) &&
+    (t === '' || c.tipo === t)
+  );
+
+  // ordenação
+  if (ordemAtual.coluna) {
+    list.sort((a, b) => {
+      let va = a[ordemAtual.coluna];
+      let vb = b[ordemAtual.coluna];
+
+      if (ordemAtual.coluna === 'valor') {
+        va = +va; vb = +vb;
+      } else if (ordemAtual.coluna === 'created_at') {
+        va = new Date(va); vb = new Date(vb);
+      } else {
+        va = va.toString().toLowerCase();
+        vb = vb.toString().toLowerCase();
+      }
+
+      return ordemAtual.asc
+        ? (va > vb ? 1 : -1)
+        : (va < vb ? 1 : -1);
+    });
+  }
+
+  renderTabela(list);
+}
+
+// 4) Renderiza as linhas da tabela
+    function renderTabela(list) {
+      tbody.innerHTML = '';
+      list.forEach(c => {
+        const tr = document.createElement('tr');
+        tr.classList.add(c.tipo);
+        tr.innerHTML = `
+          <td>${c.nome}</td>
+          <td>R$ ${parseFloat(c.valor).toFixed(2)}</td>
+          <td>${c.tipo}</td>
+          <td>${new Date(c.created_at).toLocaleDateString('pt-BR')}</td>
+          <td>${
+            c.recibo
+              ? `<a href="${c.recibo}" target="_blank">Recibo</a>`
+              : '—'
+          }</td>
+          <td>
+            <button data-edit="${c.id}">✏️</button>
+            <button data-delete="${c.id}">🗑️</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+// 5) Configura todos os event listeners
+function configurarEventos() {
+  // filtros
+  filtroNome.addEventListener('input', filtrarOuOrdenar);
+  filtroTipo.addEventListener('change', filtrarOuOrdenar);
+
+  // ordenação clicando no <th>
+  document.querySelectorAll('#tabela_contas thead th[data-coluna]')
+    .forEach(th => {
+      th.style.cursor = 'pointer';
+      th.addEventListener('click', () => {
+        const col = th.dataset.coluna;
+        if (ordemAtual.coluna === col) {
+          ordemAtual.asc = !ordemAtual.asc;
+        } else {
+          ordemAtual.coluna = col;
+          ordemAtual.asc = true;
+        }
+        filtrarOuOrdenar();
+      });
+    });
+
+  // submit do formulário (cadastro/edição)
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const f = new FormData(form);
+    const conta = Object.fromEntries(f);
+    conta.valor = parseFloat(conta.valor);
+
+    try {
+      if (conta.id) {
+        await updateConta(conta.id, conta);
+      } else {
+        await addConta(conta);
+      }
+    } catch (err) {
+      console.error('Erro ao salvar conta:', err);
+      alert('Falha ao salvar conta');
+    }
+
+    form.reset();
+    await carregarDados();
+  });
+
+  // delegação para editar/excluir
+  tbody.addEventListener('click', async e => {
+    // editar
+    if (e.target.dataset.edit) {
+      const idEdit = e.target.dataset.edit;
+      const conta  = dados.find(x => x.id === idEdit);
+      if (!conta) return;
+
+      Object.keys(conta).forEach(key => {
+        const inp = form.querySelector([name="${key}"]);
+        if (inp) inp.value = conta[key];
+      });
       return;
     }
 
-    dadosOriginais = data;
-    aplicarFiltros();
-  }
-
-  function ordenarDados(dados, coluna) {
-    if (ordemAtual.coluna === coluna) {
-      ordemAtual.asc = !ordemAtual.asc;
-    } else {
-      ordemAtual = { coluna, asc: true };
-    }
-
-    dados.sort((a, b) => {
-      let valA = a[coluna], valB = b[coluna];
-
-      // Para a coluna de data, convertemos para objetos Date para ordenação
-      if (coluna === 'created_at') {
-        valA = new Date(valA);
-        valB = new Date(valB);
-      } else {
-        if (typeof valA === 'string') valA = valA.toLowerCase();
-        if (typeof valB === 'string') valB = valB.toLowerCase();
+    // excluir
+    if (e.target.dataset.delete && confirm('Excluir esta conta?')) {
+      const idDel = e.target.dataset.delete;
+      try {
+        await deleteConta(idDel);
+        await carregarDados();
+      } catch (err) {
+        console.error('Erro ao excluir conta:', err);
+        alert('Falha ao excluir conta');
       }
-
-      if (valA < valB) return ordemAtual.asc ? -1 : 1;
-      if (valA > valB) return ordemAtual.asc ? 1 : -1;
-      return 0;
-    });
-  }
-
-  function renderizarTabela(dados) {
-    tabela.innerHTML = "";
-
-    const thead = document.createElement("thead");
-    thead.innerHTML = `
-      <tr>
-        <th data-coluna="nome">Nome ${iconeOrdenacao('nome')}</th>
-        <th data-coluna="valor">Valor (R$) ${iconeOrdenacao('valor')}</th>
-        <th data-coluna="tipo">Tipo ${iconeOrdenacao('tipo')}</th>
-        <th data-coluna="created_at">Data ${iconeOrdenacao('created_at')}</th>
-        <th>Recibo</th>
-        <th>Ações</th>
-      </tr>
-    `;
-    tabela.appendChild(thead);
-
-    const tbody = document.createElement("tbody");
-
-    dados.forEach(conta => {
-      const tr = document.createElement("tr");
-      const reciboLink = conta.recibo ? `<a href="${conta.recibo}" target="_blank">Recibo</a>` : "—";
-
-      tr.innerHTML = `
-        <td>${conta.nome}</td>
-        <td>R$ ${parseFloat(conta.valor).toFixed(2)}</td>
-        <td>${conta.tipo}</td>
-        <td>${new Date(conta.created_at).toLocaleDateString('pt-BR')}</td>
-        <td>${reciboLink}</td>
-        <td>
-          <button onclick="editarConta(${conta.id})">Editar</button>
-          <button onclick="deletarConta(${conta.id})">Excluir</button>
-        </td>
-      `;
-      tbody.appendChild(tr);
-
-      if (conta.tipo === 'entrada') {
-        tr.style.backgroundColor = 'rgba(34, 197, 94, 0.9)'; // Cor verde
-      } else if (conta.tipo === 'saida') {
-        tr.style.backgroundColor = 'rgba(239, 68, 68, 0.9)'; // Cor vermelha
-      }
-    });
-
-    tabela.appendChild(tbody);
-
-    // Eventos de clique para ordenar
-    thead.querySelectorAll("th[data-coluna]").forEach(th => {
-      th.style.cursor = "pointer";
-      th.onclick = () => {
-        ordenarDados(dados, th.dataset.coluna);
-        renderizarTabela(dados);
-      };
-    });
-  }
-
-  function aplicarFiltros() {
-    const nomeFiltro = filtroNome.value.toLowerCase();
-    const tipoFiltro = filtroTipo.value;
-
-    let filtrados = dadosOriginais.filter(conta => {
-      const nomeCond = conta.nome.toLowerCase().includes(nomeFiltro);
-      const tipoCond = tipoFiltro === "" || conta.tipo === tipoFiltro;
-      return nomeCond && tipoCond;
-    });
-
-    if (ordemAtual.coluna) {
-      ordenarDados(filtrados, ordemAtual.coluna);
     }
+  });
+}
 
-    renderizarTabela(filtrados);
+
+
+// 6) Gera o gráfico
+async function renderChart() {
+  const ctx = document
+    .getElementById('graficoFinanceiro')
+    .getContext('2d');
+
+  // NOVO: destrói o gráfico anterior, se existir
+  if (graficoFinanceiroInstance) {
+    graficoFinanceiroInstance.destroy();
   }
 
-  function iconeOrdenacao(coluna) {
-    if (ordemAtual.coluna !== coluna) return "↕";
-    return ordemAtual.asc ? "↑" : "↓";
-  }
+  const rec = Array(12).fill(0),
+        des = Array(12).fill(0);
 
-  filtroNome.addEventListener("input", aplicarFiltros);
-  filtroTipo.addEventListener("change", aplicarFiltros);
-
-  await carregarTabela();
-
-  // Gráfico financeiro
-  const { data: dataGrafico, error: erroGrafico } = await supabaseClient
-    .from('usuarios')
-    .select('valor, tipo, created_at');
-
-  if (erroGrafico) {
-    console.error('Erro ao buscar dados do gráfico:', erroGrafico);
-    return;
-  }
-
-  const receitasMensais = Array(12).fill(0);
-  const despesasMensais = Array(12).fill(0);
-
-  dataGrafico.forEach((item) => {
-    const mes = new Date(item.created_at).getMonth();
-    const valor = parseFloat(item.valor);
-    if (item.tipo === 'entrada') receitasMensais[mes] += valor;
-    else if (item.tipo === 'saida') despesasMensais[mes] += valor;
+  dados.forEach(c => {
+    const m = new Date(c.created_at).getMonth();
+    (c.tipo === 'entrada' ? rec : des)[m] += c.valor;
   });
 
-  desenharGrafico(receitasMensais, despesasMensais);
-});
-
-function desenharGrafico(receitas, despesas) {
-  const ctx = document.getElementById('graficoFinanceiro').getContext('2d');
-  const meses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
-
-  new Chart(ctx, {
+  graficoFinanceiroInstance = new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: meses,
+      labels: [
+        'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun',
+        'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'
+      ],
       datasets: [
         {
           label: 'Receitas',
-          data: receitas,
-          backgroundColor: 'rgba(34, 197, 94, 0.7)',
+          data: rec,
+          backgroundColor: 'rgba(75, 192, 192, 0.5)',
+          borderColor: 'rgba(75, 192, 192, 1)',
+          borderWidth: 1
         },
         {
           label: 'Despesas',
-          data: despesas,
-          backgroundColor: 'rgba(239, 68, 68, 0.7)',
+          data: des,
+          backgroundColor: 'rgba(255, 99, 132, 0.5)',
+          borderColor: 'rgba(255, 99, 132, 1)',
+          borderWidth: 1
         }
       ]
     },
     options: {
       responsive: true,
-      plugins: { legend: { position: 'top' } },
-      scales: {
-        y: {
-          beginAtZero: true,
-          ticks: {
-            callback: value => 'R$ ' + value.toLocaleString('pt-BR')
-          }
-        }
-      }
+      scales: { y: { beginAtZero: true } }
     }
   });
 }

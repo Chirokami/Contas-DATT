@@ -4,38 +4,84 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="style.css" />
+  <title>Prestação de Contas</title>
 </head>
 <body>
-    <section class="logo"><img  src="imagens/logo.png" alt="LogoUrcamp">
-      <h1>Página de prestação de Contas</h1>
+  <header class="header">
+    <div class="logo">
+      <img src="imagens/logo.png" alt="Logo Urcamp" />
+      <h1>Prestação de Contas</h1>
+    </div>
+  </header>
+
+  <main class="main">
+    <!-- Formulário de Cadastro -->
+    <section class="form-section">
+      <h2>Cadastrar Nova Conta</h2>
+      <form id="form-conta">
+        <input type="hidden" name="id" id="id" />
+        <div class="form-group">
+          <label for="nome">Nome</label>
+          <input type="text" id="nome" name="nome" required />
+        </div>
+        <div class="form-group">
+          <label for="valor">Valor (R$)</label>
+          <input type="number" id="valor" name="valor" step="0.01" required />
+        </div>
+        <div class="form-group">
+          <label for="tipo">Tipo</label>
+          <select id="tipo" name="tipo" required>
+            <option value="entrada">Entrada</option>
+            <option value="saida">Saída</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="recibo">URL do Recibo (opcional)</label>
+          <input type="url" id="recibo" name="recibo" />
+        </div>
+        <button type="submit" class="btn btn-primary">Salvar Conta</button>
+      </form>
     </section>
 
-
-    <button class="btncadastro"> Cadastrar Conta</button>
-    <div class="filtros"><input type="text" id="filtroNome" placeholder="">
-
-      <select id="filtroTipo">
-      </select>
-    </div>
-    <div class="container">
-    
-    <section class="tabela_contas">
+    <!-- Filtros e Tabela -->
+    <section class="table-section">
+      <div class="filtros">
+        <input type="text" id="filtroNome" placeholder="Filtrar por nome…" />
+        <select id="filtroTipo">
+          <option value="">Todos os tipos</option>
+          <option value="entrada">Entrada</option>
+          <option value="saida">Saída</option>
+        </select>
+      </div>
       <table id="tabela_contas">
+        <thead>
+          <tr>
+            <th data-coluna="nome">Nome ↕</th>
+            <th data-coluna="valor">Valor (R$) ↕</th>
+            <th data-coluna="tipo">Tipo ↕</th>
+            <th data-coluna="created_at">Data ↕</th>
+            <th>Recibo</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- dados preenchidos pelo main.js -->
+        </tbody>
       </table>
     </section>
 
-  <div class="grafico"><canvas id="graficoFinanceiro" width="400" height="200"></canvas>
-  </div>
-</div>
+    <!-- Gráfico -->
+    <section class="chart-section">
+      <canvas id="graficoFinanceiro"></canvas>
+    </section>
+  </main>
 
-  <!-- Supabase CDN -->
+  <!-- Bibliotecas via CDN -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-
-  <!-- Chart.js CDN -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-  <!-- Seu script -->
-  <script src="script.js"></script>
-
+  <!-- Scripts de aplicação -->
+  <script type="module" src="crud.js"></script>
+  <script type="module" src="script.js"></script>
 </body>
 </html>
