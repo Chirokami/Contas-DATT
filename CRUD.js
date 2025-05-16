@@ -1,7 +1,3 @@
-// crud.js
-// Supondo que você tenha incluído <script src="vendor/supabase.min.js"></script> antes destes scripts
-
-// Substitua pelas suas credenciais
 const SUPABASE_URL = 'https://iibgbagqnyyjheoiubic.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlpYmdiYWdxbnl5amhlb2l1YmljIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY2MzMzNTgsImV4cCI6MjA2MjIwOTM1OH0.alcpHiae4lLsQg_Tb7N-XQtzNhQspcOz5umorD5eZJg';
 

@@ -7,39 +7,36 @@
   <title>Prestação de Contas</title>
 </head>
 <body>
-  <header class="header">
-    <div class="logo">
+  <header class="logo">
       <img src="imagens/logo.png" alt="Logo Urcamp" />
       <h1>Prestação de Contas</h1>
-    </div>
   </header>
 
   <main class="main">
-    <!-- Formulário de Cadastro -->
-    <section class="form-section">
+    <!-- Formulário de Cadastro quero fazer um painel para preencher ele-->
+    <section class="formulario">
       <h2>Cadastrar Nova Conta</h2>
-      <form id="form-conta">
-        <input type="hidden" name="id" id="id" />
-        <div class="form-group">
+      <form id="form_cadastro">
+        <div class="form-item">
           <label for="nome">Nome</label>
           <input type="text" id="nome" name="nome" required />
         </div>
-        <div class="form-group">
+        <div class="form-item">
           <label for="valor">Valor (R$)</label>
           <input type="number" id="valor" name="valor" step="0.01" required />
         </div>
-        <div class="form-group">
+        <div class="form-item">
           <label for="tipo">Tipo</label>
           <select id="tipo" name="tipo" required>
             <option value="entrada">Entrada</option>
             <option value="saida">Saída</option>
           </select>
         </div>
-        <div class="form-group">
-          <label for="recibo">URL do Recibo (opcional)</label>
-          <input type="url" id="recibo" name="recibo" />
+        <div class="form-item">
+          <label for="recibo"> Recibo</label>
+          <input type="file" id="recibo" name="recibo" />
         </div>
-        <button type="submit" class="btn btn-primary">Salvar Conta</button>
+        <button type="submit" class="btn">Salvar Conta</button>
       </form>
     </section>
 
@@ -65,13 +62,13 @@
           </tr>
         </thead>
         <tbody>
-          <!-- dados preenchidos pelo main.js -->
+          <!-- linha preenchidas pelo script.js -->
         </tbody>
       </table>
     </section>
 
     <!-- Gráfico -->
-    <section class="chart-section">
+    <section class="area_grafico">
       <canvas id="graficoFinanceiro"></canvas>
     </section>
   </main>
@@ -81,7 +78,7 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <!-- Scripts de aplicação -->
-  <script type="module" src="crud.js"></script>
-  <script type="module" src="script.js"></script>
+  <script src="crud.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>

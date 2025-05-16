@@ -5,7 +5,8 @@ let graficoFinanceiroInstance = null; // <- NOVO: referência ao gráfico atual
 const tbody       = document.querySelector('#tabela_contas tbody');
 const filtroNome  = document.getElementById('filtroNome');
 const filtroTipo  = document.getElementById('filtroTipo');
-const form        = document.getElementById('form-conta');
+const form        = document.getElementById('form_cadastro');
+const BUCKET = 'recibos';
 
 // 1) Ao carregar a página
 window.addEventListener('DOMContentLoaded', async () => {
@@ -114,7 +115,30 @@ function configurarEventos() {
     const f = new FormData(form);
     const conta = Object.fromEntries(f);
     conta.valor = parseFloat(conta.valor);
-
+  
+    // Trata imagem (opcional)
+    const imagemFile = f.get('recibo');
+    if (imagemFile && imagemFile.size > 0) {
+      const nomeArquivo = `${Date.now()}_${imagemFile.name}`;
+      const { data, error } = await supabaseClient.storage
+        .from(BUCKET)
+        .upload(nomeArquivo, imagemFile);
+  
+      if (error) {
+        console.error('Erro ao fazer upload da imagem:', error.message);
+        alert('Erro ao enviar imagem');
+        return;
+      }
+  
+      // Obtem URL pública da imagem
+      const { data: publicUrlData } = supabaseClient
+        .storage
+        .from(BUCKET)
+        .getPublicUrl(nomeArquivo);
+  
+      conta.recibo = publicUrlData.publicUrl;
+    }
+  
     try {
       if (conta.id) {
         await updateConta(conta.id, conta);
@@ -125,7 +149,7 @@ function configurarEventos() {
       console.error('Erro ao salvar conta:', err);
       alert('Falha ao salvar conta');
     }
-
+  
     form.reset();
     await carregarDados();
   });
