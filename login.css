@@ -1,99 +1,98 @@
+/* reset básico */
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-  header {
-    display: flex;
-    position: fixed;   
-    top: 0;            
-    left: 0;           
-    width: 100%;       
-    background-color: #354f44;  
-    color: white;            
-    padding: 1rem;         
-  }
-  h1{
-    color: white;
-  }
-  img{
-    height: 50px;
-  }
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f4f4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
 
-  body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #f0f2f5;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
+.logo {
+  text-align: center;
+  margin-bottom: 30px;
+}
 
-  .login-container {
-    background: white;
-    padding: 2rem 3rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    width: 320px;
-  }
+.logo img {
+  width: 100px;
+}
 
-  h2 {
-    text-align: center;
-    margin-bottom: 1.5rem;
-    color: #354f44;
-  }
+.logo h1 {
+  margin-top: 10px;
+  color: #333;
+}
 
-  label {
-    display: block;
-    margin-bottom: 0.3rem;
-    font-weight: 600;
-    color: #555;
-  }
+.login-container {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 400px;
+}
 
-  input[type="text"],
-  input[type="password"] {
-    width: 100%;
-    padding: 0.5rem 0.75rem;
-    margin-bottom: 1.25rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 1rem;
-    transition: border-color 0.3s ease;
-  }
+.login-container h2 {
+  margin-bottom: 20px;
+  text-align: center;
+  color: #444;
+}
 
-  input[type="text"]:focus,
-  input[type="password"]:focus {
-    outline: none;
-    border-color: #007bff;
-  }
+form {
+  display: flex;
+  flex-direction: column;
+}
 
-  button {
-    width: 100%;
-    padding: 0.6rem;
-    font-size: 1rem;
-    background-color: #354f44;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: background-color 0.3s ease;
-  }
+label {
+  margin-bottom: 5px;
+  color: #333;
+}
 
-  button:hover {
-    background-color: #0056b3;
-  }
+input {
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
 
-  .forgot-password {
-    display: block;
-    margin-top: 0.75rem;
-    font-size: 0.9rem;
-    color: #007bff;
-    text-align: right;
-    text-decoration: none;
-  }
+button {
+  padding: 10px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+  border: none;
+}
 
-  .forgot-password:hover {
-    text-decoration: underline;
-  }
+.btn-primary {
+  background: #354f44;
+  color: white;
+  margin-bottom: 10px;
+}
+
+.btn-primary:hover {
+  background: #293e35;
+}
+
+/* botão visitante */
+.btn-visitor {
+  background: transparent;
+  color: #354f44;
+  text-decoration: underline;
+  width: 100%;
+}
+
+.btn-visitor:hover {
+  background: rgba(0, 123, 255, 0.1);
+}
+
+#mensagem-erro {
+  margin-top: 10px;
+  color: red;
+  text-align: center;
+}

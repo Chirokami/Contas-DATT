@@ -5,16 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="style.css" />
   <title>Prestação de Contas</title>
+  <script src="conexao.js"></script>
 </head>
 <body>
   <header class="logo">
-      <img src="imagens/logo.png" alt="Logo Urcamp" />
-      <h1>Prestação de Contas</h1>
+    <img src="imagens/logo.png" alt="Logo Urcamp" />
+    <h1>Prestação de Contas</h1>
   </header>
 
   <main class="main">
-    <!-- Formulário de Cadastro quero fazer um painel para preencher ele-->
-    <section class="formulario">
+    <!-- painel de cadastro -->
+    <section class="formulario painel">
       <h2>Cadastrar Nova Conta</h2>
       <form id="form_cadastro">
         <div class="form-item">
@@ -33,52 +34,34 @@
           </select>
         </div>
         <div class="form-item">
-          <label for="recibo"> Recibo</label>
+          <label for="recibo">Recibo</label>
           <input type="file" id="recibo" name="recibo" />
         </div>
         <button type="submit" class="btn">Salvar Conta</button>
       </form>
     </section>
 
-    <!-- Filtros e Tabela -->
+    <!-- cabeçalho da tabela -->
     <section class="table-section">
-      <div class="filtros">
-        <input type="text" id="filtroNome" placeholder="Filtrar por nome…" />
-        <select id="filtroTipo">
-          <option value="">Todos os tipos</option>
-          <option value="entrada">Entrada</option>
-          <option value="saida">Saída</option>
-        </select>
-      </div>
       <table id="tabela_contas">
         <thead>
           <tr>
-            <th data-coluna="nome">Nome ↕</th>
-            <th data-coluna="valor">Valor (R$) ↕</th>
-            <th data-coluna="tipo">Tipo ↕</th>
-            <th data-coluna="created_at">Data ↕</th>
+            <th>Nome</th>
+            <th>Valor (R$)</th>
+            <th>Tipo</th>
+            <th>Data</th>
             <th>Recibo</th>
             <th>Ações</th>
           </tr>
         </thead>
         <tbody>
-          <!-- linha preenchidas pelo script.js -->
+          <!-- tabela feita pelo script -->
         </tbody>
       </table>
     </section>
-
-    <!-- Gráfico -->
-    <section class="area_grafico">
-      <canvas id="graficoFinanceiro"></canvas>
-    </section>
   </main>
-
-  <!-- Bibliotecas via CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-  <!-- Scripts de aplicação -->
-  <script src="crud.js"></script>
-  <script src="script.js"></script>
+  <script type="module" src="conexao.js"></script>
+  <script type="module" src="script.js"></script>
+  <script type="module" src="CRUD.js"></script>
 </body>
 </html>

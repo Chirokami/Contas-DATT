@@ -1,10 +1,6 @@
-const SUPABASE_URL = 'https://iibgbagqnyyjheoiubic.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlpYmdiYWdxbnl5amhlb2l1YmljIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY2MzMzNTgsImV4cCI6MjA2MjIwOTM1OH0.alcpHiae4lLsQg_Tb7N-XQtzNhQspcOz5umorD5eZJg';
 
-// Cria o cliente Supabase
-const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// Busca todas as contas
+// resgata dados
 async function getContas() {
   const { data, error } = await supabaseClient
     .from('usuarios')
@@ -13,7 +9,7 @@ async function getContas() {
   return data;
 }
 
-// Insere nova conta
+// insert
 async function addConta(conta) {
   const { error } = await supabaseClient
     .from('usuarios')
@@ -21,7 +17,7 @@ async function addConta(conta) {
   if (error) throw error;
 }
 
-// Atualiza conta existente
+// update
 async function updateConta(id, conta) {
   const { error } = await supabaseClient
     .from('usuarios')
@@ -30,7 +26,7 @@ async function updateConta(id, conta) {
   if (error) throw error;
 }
 
-// Remove conta por UUID
+// delete
 async function deleteConta(id) {
   const { error } = await supabaseClient
     .from('usuarios')
@@ -39,7 +35,7 @@ async function deleteConta(id) {
   if (error) throw error;
 }
 
-// Exponha para o escopo global
+// manda funções para o script.js
 window.getContas    = getContas;
 window.addConta     = addConta;
 window.updateConta  = updateConta;
