@@ -4,7 +4,7 @@ const mensagemErro = document.getElementById('mensagem-erro');
 const btnVisitante = document.getElementById('btn-visitante');
 
 btnVisitante.addEventListener('click', () => {
-  window.location.href = 'index.html?visitor=true';
+  window.location.href = 'pag.html?visitor=true';
 });
 
 form.addEventListener('submit', async function(event) {
@@ -25,6 +25,6 @@ form.addEventListener('submit', async function(event) {
     mensagemErro.textContent = '';
     console.log('Login realizado com sucesso:', data);
     localStorage.setItem('usuarioLogado', JSON.stringify(data));
-    window.location.href = 'index.html';
+    window.location.href = 'pag.html';
   }
 });

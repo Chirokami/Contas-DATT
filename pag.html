@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+  <title>Prestação de Contas</title>
+  <script src="conexao.js"></script>
+</head>
+<body>
+  <header class="logo">
+    <img src="imagens/logo.png" alt="Logo Urcamp" />
+    <h1>Prestação de Contas</h1>
+  </header>
+
+  <main class="main">
+    <!-- painel de cadastro -->
+    <section class="formulario painel">
+      <h2>Cadastrar Nova Conta</h2>
+      <form id="form_cadastro">
+        <div class="form-item">
+          <label for="nome">Nome</label>
+          <input type="text" id="nome" name="nome" required />
+        </div>
+        <div class="form-item">
+          <label for="valor">Valor (R$)</label>
+          <input type="number" id="valor" name="valor" step="0.01" required />
+        </div>
+        <div class="form-item">
+          <label for="tipo">Tipo</label>
+          <select id="tipo" name="tipo" required>
+            <option value="entrada">Entrada</option>
+            <option value="saida">Saída</option>
+          </select>
+        </div>
+        <div class="form-item">
+          <label for="recibo">Recibo</label>
+          <input type="file" id="recibo" name="recibo" />
+        </div>
+        <button type="submit" class="btn">Salvar Conta</button>
+      </form>
+    </section>
+
+    <!-- cabeçalho da tabela -->
+    <section class="table-section">
+      <table id="tabela_contas">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Valor (R$)</th>
+            <th>Tipo</th>
+            <th>Data</th>
+            <th>Recibo</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- tabela feita pelo script -->
+        </tbody>
+      </table>
+    </section>
+  </main>
+  <script type="module" src="conexao.js"></script>
+  <script type="module" src="script.js"></script>
+  <script type="module" src="CRUD.js"></script>
+</body>
+</html>
